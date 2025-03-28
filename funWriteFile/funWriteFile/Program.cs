@@ -5,7 +5,7 @@ namespace funWriteFile
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+
         }
         static bool checkFile()
         {
@@ -18,7 +18,10 @@ namespace funWriteFile
         static void writeFile(String testo)
         {
             if (!checkFile()) {
-                File.WriteAllText("C:\\Users\\alunno\\Downloads\\DatiCampionato.txt", testo);
+                File.WriteAllText("C:\\Users\\alunno\\Downloads\\DatiCampionato.txt", testo+",");
+            }
+            else{
+                File.AppendAllText("C:\\Users\\alunno\\Downloads\\DatiCampionato.txt", testo + ",");
             }
         }
     }

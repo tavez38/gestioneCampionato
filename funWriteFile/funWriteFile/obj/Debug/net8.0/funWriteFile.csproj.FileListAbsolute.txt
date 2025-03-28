@@ -1,0 +1,15 @@
+T:\Tavecchia_Lorenzo\gestioneCampionato\funWriteFile\funWriteFile\bin\Debug\net8.0\funWriteFile.exe
+T:\Tavecchia_Lorenzo\gestioneCampionato\funWriteFile\funWriteFile\bin\Debug\net8.0\funWriteFile.deps.json
+T:\Tavecchia_Lorenzo\gestioneCampionato\funWriteFile\funWriteFile\bin\Debug\net8.0\funWriteFile.runtimeconfig.json
+T:\Tavecchia_Lorenzo\gestioneCampionato\funWriteFile\funWriteFile\bin\Debug\net8.0\funWriteFile.dll
+T:\Tavecchia_Lorenzo\gestioneCampionato\funWriteFile\funWriteFile\bin\Debug\net8.0\funWriteFile.pdb
+T:\Tavecchia_Lorenzo\gestioneCampionato\funWriteFile\funWriteFile\obj\Debug\net8.0\funWriteFile.GeneratedMSBuildEditorConfig.editorconfig
+T:\Tavecchia_Lorenzo\gestioneCampionato\funWriteFile\funWriteFile\obj\Debug\net8.0\funWriteFile.AssemblyInfoInputs.cache
+T:\Tavecchia_Lorenzo\gestioneCampionato\funWriteFile\funWriteFile\obj\Debug\net8.0\funWriteFile.AssemblyInfo.cs
+T:\Tavecchia_Lorenzo\gestioneCampionato\funWriteFile\funWriteFile\obj\Debug\net8.0\funWriteFile.csproj.CoreCompileInputs.cache
+T:\Tavecchia_Lorenzo\gestioneCampionato\funWriteFile\funWriteFile\obj\Debug\net8.0\funWriteFile.sourcelink.json
+T:\Tavecchia_Lorenzo\gestioneCampionato\funWriteFile\funWriteFile\obj\Debug\net8.0\funWriteFile.dll
+T:\Tavecchia_Lorenzo\gestioneCampionato\funWriteFile\funWriteFile\obj\Debug\net8.0\refint\funWriteFile.dll
+T:\Tavecchia_Lorenzo\gestioneCampionato\funWriteFile\funWriteFile\obj\Debug\net8.0\funWriteFile.pdb
+T:\Tavecchia_Lorenzo\gestioneCampionato\funWriteFile\funWriteFile\obj\Debug\net8.0\funWriteFile.genruntimeconfig.cache
+T:\Tavecchia_Lorenzo\gestioneCampionato\funWriteFile\funWriteFile\obj\Debug\net8.0\ref\funWriteFile.dll
