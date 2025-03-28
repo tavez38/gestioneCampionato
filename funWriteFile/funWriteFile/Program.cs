@@ -6,10 +6,7 @@ namespace funWriteFile
         static String PERCORSO_FILE = Environment.CurrentDirectory;
         static void Main(string[] args)
         {
-            String testo = "ciao";
-            Console.Write("Inserisci il nome del file: ");
-            String nome=Console.ReadLine();
-            writeFile(testo, nome);
+           
         }
         static bool checkFile(String nomeFile)
         {
@@ -28,9 +25,31 @@ namespace funWriteFile
                 File.AppendAllText($"{PERCORSO_FILE}{nomeFile}.txt", testo + ",");
             }
         }
-        static void readFile(String nomeFile)
+        static String readFileSinglePlayer(String nomeFile)
         {
+            int countCharSep = 0;
+            String informazione = "";
            String testoFile = File.ReadAllText($"{PERCORSO_FILE}{nomeFile}.txt");
+            for (int i = 0; i < testoFile.Length; i++)
+            {
+                if (countCharSep < 3)
+                {
+                    if (testoFile[i] != ',')
+                    {
+                        informazione = informazione+ testoFile[i];
+                    }
+                    else
+                    {
+                        informazione = informazione + "\t";
+                        countCharSep++;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+            return informazione;
         }
     }
 }
