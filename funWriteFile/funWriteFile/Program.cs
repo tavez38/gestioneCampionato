@@ -3,6 +3,7 @@ namespace funWriteFile
 {
     internal class Program
     {
+        static String [,] membriSquadre = new String[12, 3];
         static String PERCORSO_FILE = Environment.CurrentDirectory;
         static void Main(string[] args)
         {
@@ -25,31 +26,38 @@ namespace funWriteFile
                 File.AppendAllText($"{PERCORSO_FILE}{nomeFile}.txt", testo + ",");
             }
         }
-        static String readFileSinglePlayer(String nomeFile)
+        static void caricamentoSquadra(String nomeFile)
         {
+            String informazione="";
             int countCharSep = 0;
-            String informazione = "";
-           String testoFile = File.ReadAllText($"{PERCORSO_FILE}{nomeFile}.txt");
-            for (int i = 0; i < testoFile.Length; i++)
+            int riga = 0;
+            int colonna = 0;
+            String testoFile = File.ReadAllText($"{PERCORSO_FILE}{nomeFile}.txt");
+            if (riga < 12)
             {
-                if (countCharSep < 3)
+                for (int i = 0; i < testoFile.Length; i++)
                 {
-                    if (testoFile[i] != ',')
+                    if (colonna < 3)
                     {
-                        informazione = informazione+ testoFile[i];
+                        if (testoFile[i] != ',')
+                        {
+                            informazione = informazione + testoFile[i];
+                        }
+                        else
+                        {
+                            membriSquadre[riga, colonna] = informazione;
+                            countCharSep++;
+                            colonna++;
+                        }
                     }
                     else
                     {
-                        informazione = informazione + "\t";
-                        countCharSep++;
+                        riga++;
+                        colonna = 0;
                     }
                 }
-                else
-                {
-                    break;
-                }
             }
-            return informazione;
+
         }
     }
 }
