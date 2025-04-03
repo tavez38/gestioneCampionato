@@ -21,7 +21,7 @@ namespace funWriteFile
             {
                 Console.WriteLine("--- MENU ---");
                 Console.WriteLine("1. inserisci squadra");
-                Console.WriteLine("2. visualizza giocatore");
+                Console.WriteLine("2. inserisci giocatore di una squadra");
                 Console.WriteLine("qualsiasi tasto: esci");
 
                 if (!int.TryParse(Console.ReadLine(), out scelta))
@@ -40,6 +40,8 @@ namespace funWriteFile
                         break;
                     case 2:
                         string continuo = "";
+                        Console.WriteLine("inserisci il nome della squadra: ");
+                        String nomeFile=Console.ReadLine();
                         do
                         {
                             Console.WriteLine("inserisci il nome del giocatore: ");
@@ -48,8 +50,8 @@ namespace funWriteFile
                             string sName = Console.ReadLine();
                             Console.WriteLine("inserisci il ruolo del giocatore: ");
                             string role = Console.ReadLine();
-                            inserisciGiocatore(name, sName, role);
-                            Console.Write("vuoi continuare a inserire?(S/qualsiasi cosa): ");
+                            inserisciGiocatore(name, sName, role, nomeFile);
+                            Console.Write("vuoi continuare a inserire giocatori della stessa squadra?(S/qualsiasi cosa): ");
                         } while (continuo.ToUpper() == "S");
                         break;
                 }
@@ -94,29 +96,43 @@ namespace funWriteFile
             }
             return -1;
         }
-        static void inserisciGiocatore(string nomeGiocatore, string cognomeGiocatore, string ruoloGiocatore)
+        static bool inserisciGiocatore(string nomeGiocatore, string cognomeGiocatore, string ruoloGiocatore,String nomeFile)
         {
-            for (int i = 0; i < GIOCATORI; i++)
+            for (int j = 0; j < PARAMETRI; j++)
             {
-                if (membriSquadra[i, 0] == "")
+                switch (j)
                 {
-                    for (int j = 0; j < PARAMETRI; j++)
+                    case 0:
+                        writeFile(nomeGiocatore, nomeFile);
+                        break;
+                    case 1:
+                        writeFile(cognomeGiocatore, nomeFile);
+                        break;
+                    case 2:
+                        writeFile(ruoloGiocatore,nomeFile);
+                        break;
+                }
+            }
+            return true;   
+        }
+        static bool isFull(string nomeFile) {
+            int counterInfo = 0;
+            String testoFile = File.ReadAllText($"{PERCORSO_FILE}{nomeFile}.txt");
+            for (int i = 0; i < testoFile.Length; i++)
+            {
+                if (counterInfo == INFO_MAX)
+                {
+                    return true;
+                }
+                else
+                {
+                    if (testoFile[i] == ',')
                     {
-                        switch (j)
-                        {
-                            case 0:
-                                membriSquadra[i, j] = nomeGiocatore;
-                                break;
-                            case 1:
-                                membriSquadra[i, j] = cognomeGiocatore;
-                                break;
-                            case 2:
-                                membriSquadra[i, j] = ruoloGiocatore;
-                                break;
-                        }
+                        counterInfo++;
                     }
                 }
             }
+            return false;
         }
         static bool checkFile(String nomeFile)
         {
@@ -154,7 +170,7 @@ namespace funWriteFile
                         }
                         else
                         {
-                            membriSquadre[riga, colonna] = informazione;
+                            membriSquadra[riga, colonna] = informazione;
                             countCharSep++;
                             colonna++;
                         }
