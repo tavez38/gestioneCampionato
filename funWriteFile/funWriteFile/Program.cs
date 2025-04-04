@@ -9,6 +9,7 @@ namespace funWriteFile
         const int PARAMETRI = 3;
         const int SQUADRE = 16;
         const int DATA_MATCH_ESITO = 4;
+        const int INFO_MAX = 36;
         static string[] nomiSquadre = new string[GIOCATORI];
         static string[] motti = new string[GIOCATORI];
         static string[,] membriSquadra = new string[GIOCATORI, PARAMETRI];
@@ -98,22 +99,27 @@ namespace funWriteFile
         }
         static bool inserisciGiocatore(string nomeGiocatore, string cognomeGiocatore, string ruoloGiocatore,String nomeFile)
         {
-            for (int j = 0; j < PARAMETRI; j++)
+            if (!isFull(nomeFile))
             {
-                switch (j)
+                for (int j = 0; j < PARAMETRI; j++)
                 {
-                    case 0:
-                        writeFile(nomeGiocatore, nomeFile);
-                        break;
-                    case 1:
-                        writeFile(cognomeGiocatore, nomeFile);
-                        break;
-                    case 2:
-                        writeFile(ruoloGiocatore,nomeFile);
-                        break;
+                    switch (j)
+                    {
+                        case 0:
+                            writeFile(nomeGiocatore, nomeFile);
+                            break;
+                        case 1:
+                            writeFile(cognomeGiocatore, nomeFile);
+                            break;
+                        case 2:
+                            writeFile(ruoloGiocatore, nomeFile);
+                            break;
+                    }
                 }
+                return true;
             }
-            return true;   
+            return false;
+              
         }
         static bool isFull(string nomeFile) {
             int counterInfo = 0;
