@@ -23,6 +23,8 @@ namespace funWriteFile
                 Console.WriteLine("--- MENU ---");
                 Console.WriteLine("1. inserisci squadra");
                 Console.WriteLine("2. inserisci giocatore di una squadra");
+                Console.WriteLine("3. cerca una squadra");
+                Console.WriteLine("4. cerca il giocatore di una squadra");
                 Console.WriteLine("qualsiasi tasto: esci");
 
                 if (!int.TryParse(Console.ReadLine(), out scelta))
@@ -55,6 +57,30 @@ namespace funWriteFile
                             Console.Write("vuoi continuare a inserire giocatori della stessa squadra?(S/qualsiasi cosa): ");
                         } while (continuo.ToUpper() == "S");
                         break;
+                    case 3:
+                        Console.Write("quale squadra vuoi cercare: ");
+                        string squadraCercata = Console.ReadLine();
+                        bool checkLoad = caricamentoSquadra(squadraCercata);
+                        if (!checkLoad)
+                        {
+                            Console.WriteLine("Squadra non trovata");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Caricamento squadra in corso ...");
+                            Console.WriteLine("vuoi vedere le statistiche della squadra o i componenti?");
+                            Console.WriteLine("premi 1 per vedere le statistiche, 2 per visualizzare i giocatori, qualunque altro tasto per annullare");
+                            int scegli = int.Parse(Console.ReadLine());
+                            if (scegli == 1)
+                            {
+                                // funzione di visualizzazione statistiche di una squadra(partite vinte, punti fatti)
+                            }
+                            else if (scegli == 2)
+                            {
+                                stampaSquadra();
+                            }
+                        }
+                        break;
                 }
             } while (scelta > 0 && scelta < 4);
             Console.WriteLine("Uscita in corso...");
@@ -86,7 +112,7 @@ namespace funWriteFile
                 Console.WriteLine("iscrizioni chiuse");
             }
         }
-        static int checkFirstEmptyRow()
+        /*static int checkFirstEmptyRow()
         {
             for (int i = 0; i < GIOCATORI; i++)
             {
@@ -96,7 +122,7 @@ namespace funWriteFile
                 }
             }
             return -1;
-        }
+        }*/
         static bool inserisciGiocatore(string nomeGiocatore, string cognomeGiocatore, string ruoloGiocatore,String nomeFile)
         {
             if (!isFull(nomeFile))
@@ -157,38 +183,55 @@ namespace funWriteFile
                 File.AppendAllText($"{PERCORSO_FILE}{nomeFile}.txt", testo + ",");
             }
         }
-        static void caricamentoSquadra(String nomeFile)
-        {
-            String informazione="";
-            int countCharSep = 0;
+        static bool caricamentoSquadra(String nomeFile) { 
+            String informazione = "";
             int riga = 0;
             int colonna = 0;
-            String testoFile = File.ReadAllText($"{PERCORSO_FILE}{nomeFile}.txt");
-            if (riga < 12)
+            if (!checkFile(nomeFile))
             {
-                for (int i = 0; i < testoFile.Length; i++)
+                return false;
+            }
+            else
+            {
+                String testoFile = File.ReadAllText($"{PERCORSO_FILE}{nomeFile}.txt");
+                if (riga < 12)
                 {
-                    if (colonna < 3)
+                    for (int i = 0; i < testoFile.Length; i++)
                     {
-                        if (testoFile[i] != ',')
+                        if (colonna < 3)
                         {
-                            informazione = informazione + testoFile[i];
+                            if (testoFile[i] != ',')
+                            {
+                                informazione = informazione + testoFile[i];
+                            }
+                            else
+                            {
+                                membriSquadra[riga, colonna] = informazione;
+
+                                colonna++;
+                            }
                         }
                         else
                         {
-                            membriSquadra[riga, colonna] = informazione;
-                            countCharSep++;
-                            colonna++;
+                            riga++;
+                            colonna = 0;
                         }
                     }
-                    else
-                    {
-                        riga++;
-                        colonna = 0;
-                    }
                 }
+                return true;
             }
-
+        }
+        static void stampaSquadra()
+        {
+            Console.WriteLine("Nome \t Cognome \t Ruolo");
+            for (int i = 0; i < GIOCATORI; i++)
+            {
+                for (int j = 0; j < PARAMETRI; j++)
+                {
+                    Console.Write(membriSquadra[i,j]+"\t");
+                }
+                Console.WriteLine("\n");
+            }
         }
     }
 }
