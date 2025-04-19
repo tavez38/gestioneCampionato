@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.Metrics;
+﻿using System.Collections.Concurrent;
+using System.Diagnostics.Metrics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
@@ -46,9 +47,16 @@ namespace funWriteFile
                         string sceltaGiocatori = "";
                         Console.Write("inserisci il nome della squadra: ");
                         string nomeSquadra = Console.ReadLine();
-                        Console.Write("inserisci il motto della squadra: ");
-                        string mottoSquadra = Console.ReadLine();
-                        inserisciSquadre(nomeSquadra, mottoSquadra);
+                        if (squadraExist(nomeSquadra))
+                        {
+                            Console.WriteLine("Squadra con lo stesso nome già presente");
+                        }
+                        else
+                        {
+                            Console.Write("inserisci il motto della squadra: ");
+                            string mottoSquadra = Console.ReadLine();
+                            inserisciSquadre(nomeSquadra, mottoSquadra);
+                        }
                         break;
                     case 2:
                         string continuo = "";
@@ -277,9 +285,10 @@ namespace funWriteFile
             for (int i = 0; i < GIOCATORI; i++)
             {
                 if (membriSquadra[i, 0] != null) { 
+                    Console.Write(numElenco + " ");
                     for (int j = 0; j < PARAMETRI; j++)
                     {
-                        Console.Write(numElenco+membriSquadra[i, j] + "\t");
+                        Console.Write(membriSquadra[i, j] + "\t");
                     }
                     Console.WriteLine("\n");
                     numElenco++;
@@ -419,6 +428,17 @@ namespace funWriteFile
                     File.Delete($"{PERCORSO_FILE}\\{nomiSquadre[i]}.txt");
                 }
             }
+        }
+        static bool squadraExist(String nameSquadra)
+        {
+            for (int i = 0; i < SQUADRE; i++)
+            {
+                if (nomiSquadre[i] == nameSquadra)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("funWriteFile")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2709d6912e7bf7491b7c5dc7ac70ceafc7557db5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4be9a95d37fce0fbcce30ef41aa1a0dd920b2f9f")]
 [assembly: System.Reflection.AssemblyProductAttribute("funWriteFile")]
 [assembly: System.Reflection.AssemblyTitleAttribute("funWriteFile")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
