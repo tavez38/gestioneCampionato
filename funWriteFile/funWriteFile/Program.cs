@@ -66,6 +66,7 @@ namespace funWriteFile
                                 string role = Console.ReadLine();
                                 inserisciGiocatore(name, sName, role, nomeFile);
                                 Console.Write("vuoi continuare a inserire giocatori della stessa squadra?(S/qualsiasi cosa per annullare): ");
+                                continuo = Console.ReadLine();
                             } while (continuo.ToUpper() == "S");
                         }
                         else
@@ -123,6 +124,12 @@ namespace funWriteFile
                         break;
                 }
             } while (scelta > 0 && scelta < 5);
+            Console.WriteLine("Vuoi eliminare tutti i file delle squadre che hai creato?(S/qualsiasi tasto)");
+            String answer=Console.ReadLine();
+            if (answer.ToUpper() == "S")
+            {
+                deleteFile();
+            }
             Console.WriteLine("Uscita in corso...");
         }
         static bool checkInserimento()
@@ -137,14 +144,8 @@ namespace funWriteFile
         {
             if (checkInserimento())
             {
-                for (int i = 0; i < GIOCATORI; i++)
-                {
-                    if (nomiSquadre[i] == null)
-                    {
-                        nomiSquadre[i] = nome;
-                        motti[i] = motto;
-                    }
-                }
+                nomiSquadre[counter] = nome;
+                motti[counter] = motto;
                 counter++;
             }
             else
@@ -408,6 +409,16 @@ namespace funWriteFile
                 return false;
             }
             return true;
+        }
+        static void deleteFile()
+        {
+            for (int i = 0; i < SQUADRE; i++)
+            {
+                if (nomiSquadre[i] != null)
+                {
+                    File.Delete($"{PERCORSO_FILE}\\{nomiSquadre[i]}.txt");
+                }
+            }
         }
     }
 }
