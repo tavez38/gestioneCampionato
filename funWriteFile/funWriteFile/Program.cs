@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Runtime.CompilerServices;
 namespace funWriteFile
 {
     internal class Program
@@ -23,8 +24,8 @@ namespace funWriteFile
                 Console.WriteLine("--- MENU ---");
                 Console.WriteLine("1. inserisci squadra");
                 Console.WriteLine("2. inserisci giocatore di una squadra");
-                Console.WriteLine("3. cerca una squadra");
-                Console.WriteLine("4. cerca il giocatore di una squadra");
+                Console.WriteLine("3. cerca una squadra o il giocatore di una squadra");
+                Console.WriteLine("4. visualizza il tabellone dei match");
                 Console.WriteLine("qualsiasi tasto: esci");
 
                 if (!int.TryParse(Console.ReadLine(), out scelta))
@@ -68,16 +69,29 @@ namespace funWriteFile
                         else
                         {
                             Console.WriteLine("Caricamento squadra in corso ...");
-                            Console.WriteLine("vuoi vedere le statistiche della squadra o i componenti?");
-                            Console.WriteLine("premi 1 per vedere le statistiche, 2 per visualizzare i giocatori, qualunque altro tasto per annullare");
+                            Console.WriteLine("1 per visualizzare l'intera squadra 2 per visualizzare il singolo giocatore, qualsiasi altro tasto per annullare");
+                            
                             int scegli = int.Parse(Console.ReadLine());
                             if (scegli == 1)
                             {
-                                // funzione di visualizzazione statistiche di una squadra(partite vinte, punti fatti)
+                                stampaSquadra();
                             }
                             else if (scegli == 2)
                             {
-                                stampaSquadra();
+                                Console.WriteLine("Inserire il cognome del giocatore");
+                                String cognome = Console.ReadLine();
+                                int resRicerca = cercaGiocatore(cognome);
+                                if(resRicerca == -1)
+                                {
+                                    Console.WriteLine("giocatore non trovato");
+                                }
+                                else
+                                {
+                                    for (int i = 0; i < PARAMETRI; i++)
+                                    {
+                                        Console.Write($"{membriSquadra[resRicerca, i]}, ");
+                                    }
+                                }
                             }
                         }
                         break;
@@ -112,17 +126,6 @@ namespace funWriteFile
                 Console.WriteLine("iscrizioni chiuse");
             }
         }
-        /*static int checkFirstEmptyRow()
-        {
-            for (int i = 0; i < GIOCATORI; i++)
-            {
-                if (membriSquadra[i, 0] == "")
-                {
-                    return i;
-                }
-            }
-            return -1;
-        }*/
         static bool inserisciGiocatore(string nomeGiocatore, string cognomeGiocatore, string ruoloGiocatore,String nomeFile)
         {
             if (!isFull(nomeFile))
@@ -232,6 +235,17 @@ namespace funWriteFile
                 }
                 Console.WriteLine("\n");
             }
+        }
+        static int cercaGiocatore(String cognome)
+        {
+            for (int i = 0; i < GIOCATORI; i++)
+            {
+                if (membriSquadra[i, 1] == cognome)
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
     }
 }
