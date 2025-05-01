@@ -7,7 +7,7 @@ namespace funWriteFile
 {
     internal class Program
     {
-       
+
         static String PERCORSO_FILE = Environment.CurrentDirectory;
         const int GIOCATORI = 12;
         const int PARAMETRI = 3;
@@ -19,12 +19,11 @@ namespace funWriteFile
         static string[] nomiSquadre = new string[SQUADRE];
         static string[] motti = new string[SQUADRE];
         static string[,] membriSquadra = new string[GIOCATORI, PARAMETRI];
-        static string[,] gare = new string[DATA_MATCH_ESITO, DATA_MATCH_ESITO];
+        static string[,] gare = new string[match, PARAMETRI_MATCH];
         static int giorni;
         static int counterSquadre = 0;
         static int incontriGiocati = 0;
-        static int match = SQUADRE / 2; 
-        static int counter=0;
+        static int match = SQUADRE / 2;
         static void Main(string[] args)
         {
             int scelta;
@@ -61,7 +60,7 @@ namespace funWriteFile
                     case 2:
                         string continuo = "";
                         Console.WriteLine("inserisci il nome della squadra: ");
-                        String nomeFile=Console.ReadLine();
+                        String nomeFile = Console.ReadLine();
                         if (checkSquadra(nomeFile))
                         {
                             do
@@ -94,7 +93,7 @@ namespace funWriteFile
                             int scegli = int.Parse(Console.ReadLine());
                             if (scegli == 1)
                             {
-                                stampaSquadra();
+                                stampaSquadra(squadraCercata);
                             }
                             else if (scegli == 2)
                             {
@@ -122,6 +121,7 @@ namespace funWriteFile
                             {
                                 Console.Write("che giorno inizia il torneo? ");
                             } while (int.TryParse(Console.ReadLine(), out giorni) && checkGiorni() == false);
+                            data();
                             gestioneMatch();
                             torneo();
                         }
@@ -133,7 +133,7 @@ namespace funWriteFile
                 }
             } while (scelta > 0 && scelta < 5);
             Console.WriteLine("Vuoi eliminare tutti i file delle squadre che hai creato?(S/qualsiasi tasto)");
-            String answer=Console.ReadLine();
+            String answer = Console.ReadLine();
             if (answer.ToUpper() == "S")
             {
                 deleteFile();
@@ -142,7 +142,7 @@ namespace funWriteFile
         }
         static bool checkInserimento()
         {
-            if (counter < SQUADRE)
+            if (counterSquadre < SQUADRE)
             {
                 return true;
             }
@@ -152,16 +152,16 @@ namespace funWriteFile
         {
             if (checkInserimento())
             {
-                nomiSquadre[counter] = nome;
-                motti[counter] = motto;
-                counter++;
+                nomiSquadre[counterSquadre] = nome;
+                motti[counterSquadre] = motto;
+                counterSquadre++;
             }
             else
             {
                 Console.WriteLine("iscrizioni chiuse");
             }
         }
-        static bool inserisciGiocatore(string nomeGiocatore, string cognomeGiocatore, string ruoloGiocatore,String nomeFile)
+        static bool inserisciGiocatore(string nomeGiocatore, string cognomeGiocatore, string ruoloGiocatore, String nomeFile)
         {
             if (!isFull(nomeFile))
             {
@@ -183,9 +183,10 @@ namespace funWriteFile
                 return true;
             }
             return false;
-              
+
         }
-        static bool checkSquadra(String squadra) {
+        static bool checkSquadra(String squadra)
+        {
             for (int i = 0; i < SQUADRE; i++)
             {
                 if (squadra == nomiSquadre[i])
@@ -195,7 +196,8 @@ namespace funWriteFile
             }
             return false;
         }
-        static bool isFull(string nomeFile) {
+        static bool isFull(string nomeFile)
+        {
             int counterInfo = 0;
             if (checkFile(nomeFile))
             {
@@ -227,14 +229,17 @@ namespace funWriteFile
         }
         static void writeFile(String testo, String nomeFile)
         {
-            if (!checkFile(nomeFile)) {
-                File.WriteAllText($"{PERCORSO_FILE}\\{nomeFile}.txt", testo+",");
+            if (!checkFile(nomeFile))
+            {
+                File.WriteAllText($"{PERCORSO_FILE}\\{nomeFile}.txt", testo + ",");
             }
-            else{
+            else
+            {
                 File.AppendAllText($"{PERCORSO_FILE}\\{nomeFile}.txt", testo + ",");
             }
         }
-        static bool caricamentoSquadra(String nomeFile) { 
+        static bool caricamentoSquadra(String nomeFile)
+        {
             String informazione = "";
             int riga = 0;
             int colonna = 0;
@@ -243,7 +248,7 @@ namespace funWriteFile
                 Console.WriteLine("Squadra non trovata");
                 return false;
             }
-            else if(!checkFile(nomeFile) && checkSquadra(nomeFile))
+            else if (!checkFile(nomeFile) && checkSquadra(nomeFile))
             {
                 Console.WriteLine("Squadra trovata ma vuota");
                 return false;
@@ -278,17 +283,20 @@ namespace funWriteFile
                 return true;
             }
         }
-        static void stampaSquadra()
+        static void stampaSquadra(String nomeSquadra)
         {
+            int indice = cercaSquadra(nomeSquadra);
             int numElenco = 0;
-            Console.WriteLine("Nome \t Cognome \t Ruolo");
+            Console.WriteLine($"Nome squadra: {nomiSquadre[indice]} \t Motto: {motti[indice]}");
+            Console.WriteLine("  Nome \t Cognome \t Ruolo");
             for (int i = 0; i < GIOCATORI; i++)
             {
-                if (membriSquadra[i, 0] != null) { 
+                if (membriSquadra[i, 0] != null)
+                {
                     Console.Write(numElenco + " ");
                     for (int j = 0; j < PARAMETRI; j++)
                     {
-                        Console.Write(membriSquadra[i, j] + "\t");
+                        Console.Write(membriSquadra[i, j] + " \t ");
                     }
                     Console.WriteLine("\n");
                     numElenco++;
@@ -315,20 +323,20 @@ namespace funWriteFile
                 do
                 {
                     Random rnd = new Random();
-                    squadra1 = rnd.Next(0, nomiSquadre.Length);
-                    squadra2 = rnd.Next(0, nomiSquadre.Length);
+                    squadra1 = rnd.Next(0, counterSquadre);
+                    squadra2 = rnd.Next(0, counterSquadre);
                 } while (controlloSquadre(squadra1, squadra2) == false);
-                gare[1, i] = nomiSquadre[squadra1];
-                gare[2, i] = nomiSquadre[squadra2];
+                gare[i, 1] = nomiSquadre[squadra1];
+                gare[i, 2] = nomiSquadre[squadra2];
                 incontriGiocati++;
             }
             stampaTabellone();
-        } 
+        }
         static bool controlloSquadre(int primaSquadra, int secondaSquadra)
         {
-            for (int i = 0; i < PARAMETRI; i++)
+            for (int i = 0; i < match; i++)
             {
-                if (nomiSquadre[primaSquadra] == gare[1, i] || nomiSquadre[secondaSquadra] == gare[2, i] || primaSquadra == secondaSquadra)
+                if (nomiSquadre[primaSquadra] == gare[i, 1] || nomiSquadre[secondaSquadra] == gare[i, 2] || primaSquadra == secondaSquadra)
                 {
                     return false;
                 }
@@ -344,8 +352,8 @@ namespace funWriteFile
                 Random rnd = new Random();
                 punteggio1 = rnd.Next(50, 90);
                 punteggio2 = rnd.Next(50, 90);
-                gare[3, i] = Convert.ToString(punteggio1);
-                gare[4, i] = Convert.ToString(punteggio2);
+                gare[i, 3] = Convert.ToString(punteggio1);
+                gare[i, 4] = Convert.ToString(punteggio2);
             }
         }
         static void torneo()

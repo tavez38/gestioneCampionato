@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\LORENZO\\Documents\\GitHub\\gestioneCampionato\\funWriteFile\\funWriteFile\\funWriteFile.csproj": {}
+    "C:\\Users\\LORENZO\\Desktop\\scuola\\gestioneCampionato\\funWriteFile\\funWriteFile\\funWriteFile.csproj": {}
   },
   "projects": {
-    "C:\\Users\\LORENZO\\Documents\\GitHub\\gestioneCampionato\\funWriteFile\\funWriteFile\\funWriteFile.csproj": {
+    "C:\\Users\\LORENZO\\Desktop\\scuola\\gestioneCampionato\\funWriteFile\\funWriteFile\\funWriteFile.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\LORENZO\\Documents\\GitHub\\gestioneCampionato\\funWriteFile\\funWriteFile\\funWriteFile.csproj",
+        "projectUniqueName": "C:\\Users\\LORENZO\\Desktop\\scuola\\gestioneCampionato\\funWriteFile\\funWriteFile\\funWriteFile.csproj",
         "projectName": "funWriteFile",
-        "projectPath": "C:\\Users\\LORENZO\\Documents\\GitHub\\gestioneCampionato\\funWriteFile\\funWriteFile\\funWriteFile.csproj",
+        "projectPath": "C:\\Users\\LORENZO\\Desktop\\scuola\\gestioneCampionato\\funWriteFile\\funWriteFile\\funWriteFile.csproj",
         "packagesPath": "C:\\Users\\LORENZO\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\LORENZO\\Documents\\GitHub\\gestioneCampionato\\funWriteFile\\funWriteFile\\obj\\",
+        "outputPath": "C:\\Users\\LORENZO\\Desktop\\scuola\\gestioneCampionato\\funWriteFile\\funWriteFile\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
