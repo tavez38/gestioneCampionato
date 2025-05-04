@@ -19,11 +19,11 @@ namespace funWriteFile
         static string[] nomiSquadre = new string[SQUADRE];
         static string[] motti = new string[SQUADRE];
         static string[,] membriSquadra = new string[GIOCATORI, PARAMETRI];
+        static int match = SQUADRE / 2;
         static string[,] gare = new string[match, PARAMETRI_MATCH];
         static int giorni;
         static int counterSquadre = 0;
         static int incontriGiocati = 0;
-        static int match = SQUADRE / 2;
         static void Main(string[] args)
         {
             int scelta;
@@ -63,18 +63,34 @@ namespace funWriteFile
                         String nomeFile = Console.ReadLine();
                         if (checkSquadra(nomeFile))
                         {
-                            do
+                            if (!isFull(nomeFile))
                             {
-                                Console.WriteLine("inserisci il nome del giocatore: ");
-                                string name = Console.ReadLine();
-                                Console.WriteLine("inseirsci il cognome: ");
-                                string sName = Console.ReadLine();
-                                Console.WriteLine("inserisci il ruolo del giocatore: ");
-                                string role = Console.ReadLine();
-                                inserisciGiocatore(name, sName, role, nomeFile);
-                                Console.Write("vuoi continuare a inserire giocatori della stessa squadra?(S/qualsiasi cosa per annullare): ");
-                                continuo = Console.ReadLine();
-                            } while (continuo.ToUpper() == "S");
+                                do
+                                {
+                                    Console.WriteLine("inserisci il nome del giocatore: ");
+                                    string name = Console.ReadLine();
+                                    Console.WriteLine("inseirsci il cognome: ");
+                                    string sName = Console.ReadLine();
+                                    Console.WriteLine("inserisci il ruolo del giocatore: ");
+                                    string role = Console.ReadLine();
+                                    if (isFull(nomeFile))
+                                    {
+                                        Console.WriteLine("Numero massimo di giocatori iscrivibili raggiunto");
+                                        Console.WriteLine("Ultimo giocatore inserito non aggiunto");
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        inserisciGiocatore(name, sName, role, nomeFile);
+                                    }
+                                    Console.Write("vuoi continuare a inserire giocatori della stessa squadra?(S/qualsiasi cosa per annullare): ");
+                                    continuo = Console.ReadLine();
+                                } while (continuo.ToUpper() == "S");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Impossibile iscrivere altri giocatori, squadra piena");
+                            }
                         }
                         else
                         {
@@ -82,7 +98,7 @@ namespace funWriteFile
                         }
                         break;
                     case 3:
-                        Console.Write("quale squadra vuoi cercare: ");
+                        Console.Write("Quale squadra vuoi cercare: ");
                         string squadraCercata = Console.ReadLine();
                         bool checkLoad = caricamentoSquadra(squadraCercata);
                         if (checkLoad)
@@ -93,7 +109,7 @@ namespace funWriteFile
                             int scegli = int.Parse(Console.ReadLine());
                             if (scegli == 1)
                             {
-                                stampaSquadra(squadraCercata);
+                                stampaSquadra(squadraCercata); 
                             }
                             else if (scegli == 2)
                             {
@@ -108,7 +124,7 @@ namespace funWriteFile
                                 {
                                     for (int i = 0; i < PARAMETRI; i++)
                                     {
-                                        Console.Write($"{membriSquadra[resRicerca, i]}, ");
+                                        Console.Write($"{membriSquadra[resRicerca, i]} \t");
                                     }
                                 }
                             }
@@ -122,6 +138,7 @@ namespace funWriteFile
                                 Console.Write("che giorno inizia il torneo? ");
                             } while (int.TryParse(Console.ReadLine(), out giorni) && checkGiorni() == false);
                             data();
+                            punteggio();
                             gestioneMatch();
                             torneo();
                         }
@@ -161,29 +178,25 @@ namespace funWriteFile
                 Console.WriteLine("iscrizioni chiuse");
             }
         }
-        static bool inserisciGiocatore(string nomeGiocatore, string cognomeGiocatore, string ruoloGiocatore, String nomeFile)
+        static void inserisciGiocatore(string nomeGiocatore, string cognomeGiocatore, string ruoloGiocatore, String nomeFile)
         {
-            if (!isFull(nomeFile))
+            
+            for (int j = 0; j < PARAMETRI; j++)
             {
-                for (int j = 0; j < PARAMETRI; j++)
+                switch (j)
                 {
-                    switch (j)
-                    {
-                        case 0:
-                            writeFile(nomeGiocatore, nomeFile);
-                            break;
-                        case 1:
-                            writeFile(cognomeGiocatore, nomeFile);
-                            break;
-                        case 2:
-                            writeFile(ruoloGiocatore, nomeFile);
-                            break;
-                    }
+                    case 0:
+                        writeFile(nomeGiocatore, nomeFile);
+                        break;
+                    case 1:
+                        writeFile(cognomeGiocatore, nomeFile);
+                        break;
+                    case 2:
+                        writeFile(ruoloGiocatore, nomeFile);
+                        break;
                 }
-                return true;
-            }
-            return false;
-
+            }                
+            
         }
         static bool checkSquadra(String squadra)
         {
@@ -198,7 +211,7 @@ namespace funWriteFile
         }
         static bool isFull(string nomeFile)
         {
-            int counterInfo = 0;
+            int counterInfo = 1;
             if (checkFile(nomeFile))
             {
                 String testoFile = File.ReadAllText($"{PERCORSO_FILE}\\{nomeFile}.txt");
@@ -243,6 +256,7 @@ namespace funWriteFile
             String informazione = "";
             int riga = 0;
             int colonna = 0;
+            bool infoParziali=false;
             if (!checkFile(nomeFile) && !checkSquadra(nomeFile))
             {
                 Console.WriteLine("Squadra non trovata");
@@ -256,9 +270,9 @@ namespace funWriteFile
             else
             {
                 String testoFile = File.ReadAllText($"{PERCORSO_FILE}\\{nomeFile}.txt");
-                if (riga < 12)
+                for (int i = 0; i < testoFile.Length && !infoParziali; i++)
                 {
-                    for (int i = 0; i < testoFile.Length; i++)
+                    if (riga < 12)
                     {
                         if (colonna < 3)
                         {
@@ -277,18 +291,27 @@ namespace funWriteFile
                         {
                             riga++;
                             colonna = 0;
+                            informazione = informazione + testoFile[i];
                         }
                     }
+                    else if (riga == 12 && informazione!="")
+                    {
+                        infoParziali = true;
+                    }
+                }
+                if (infoParziali)
+                {
+                    Console.WriteLine("Informazioni caricate: Parziali");
                 }
                 return true;
             }
         }
         static void stampaSquadra(String nomeSquadra)
         {
-            int indice = cercaSquadra(nomeSquadra);
             int numElenco = 0;
+            int indice = cercaSquadra(nomeSquadra);
             Console.WriteLine($"Nome squadra: {nomiSquadre[indice]} \t Motto: {motti[indice]}");
-            Console.WriteLine("  Nome \t Cognome \t Ruolo");
+            Console.WriteLine(" Nome \t Cognome \t Ruolo");
             for (int i = 0; i < GIOCATORI; i++)
             {
                 if (membriSquadra[i, 0] != null)
